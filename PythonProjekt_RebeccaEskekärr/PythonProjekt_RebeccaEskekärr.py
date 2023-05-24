@@ -18,7 +18,8 @@ pygame.display.set_icon(icon)
 playerImage = pygame.image.load('warrior.png')
 playerX = 200
 playerY = 380
-
+playerY_change = 0
+playerX_change = 0
 
 #Enemy
 enemyImage = pygame.image.load('barrier.png')
@@ -43,6 +44,22 @@ while running:
             running = False
             exit()
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and playerY_change == 0:
+                playerY_change = 18
+            if event.key == pygame.K_RIGHT:
+                playerX_change = 2
+            if event.key == pygame.K_LEFT:
+                playerX_change = -2
+       
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                playerX_change = 0
+            if event.key == pygame.K_LEFT:
+                playerX_change = 0
+
+
+    
 
     enemy(enemyX, enemyY)
     player(playerX, playerY) #calling player
