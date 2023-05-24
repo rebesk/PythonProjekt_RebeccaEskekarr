@@ -46,7 +46,7 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and playerY_change == 0:
-                playerY_change = 18
+                playerY_change = -2
             if event.key == pygame.K_RIGHT:
                 playerX_change = 2
             if event.key == pygame.K_LEFT:
@@ -58,7 +58,8 @@ while running:
             if event.key == pygame.K_LEFT:
                 playerX_change = 0
 
-
+    playerX += playerX_change
+    playerY += playerY_change
     
 
     enemy(enemyX, enemyY)
