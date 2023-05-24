@@ -4,7 +4,7 @@ from sys import exit
 #run pygame
 pygame.init()
 #create a screen
-screen = pygame.display.set_mode((800,600))
+screen = pygame.display.set_mode((800,570))
 
 #Background
 background = pygame.image.load('gamebackground.png')
@@ -19,6 +19,14 @@ playerImage = pygame.image.load('warrior.png')
 playerX = 200
 playerY = 380
 
+
+#Enemy
+enemyImage = pygame.image.load('barrier.png')
+enemyX = 400
+enemyY = 380
+
+def enemy(x, y):
+    screen.blit(enemyImage, (x, y)) # draw enemy on image
 
 def player(x, y):
     screen.blit(playerImage, (x, y)) #draw player on image
@@ -36,7 +44,7 @@ while running:
             exit()
 
 
-
+    enemy(enemyX, enemyY)
     player(playerX, playerY) #calling player
     pygame.display.update()
 
