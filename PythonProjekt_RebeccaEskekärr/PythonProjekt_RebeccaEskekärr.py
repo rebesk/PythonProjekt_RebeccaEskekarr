@@ -14,6 +14,9 @@ pygame.display.set_caption('Jumping over') # Initial name of game
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 
+#gravity
+gravity = 0.5
+
 #Player
 playerImage = pygame.image.load('warrior.png')
 playerX = 200
@@ -46,7 +49,7 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and playerY_change == 0:
-                playerY_change = -2
+                playerY_change = 18
             if event.key == pygame.K_RIGHT:
                 playerX_change = 2
             if event.key == pygame.K_LEFT:
@@ -59,8 +62,15 @@ while running:
                 playerX_change = 0
 
     playerX += playerX_change
-    playerY += playerY_change
     
+    #Gör att karaktären hoppar: källa från youtube där koden finns vid 15.56 från youtube videon https://www.youtube.com/watch?v=ZV8TNrwqG1Y
+    if playerY_change > 0 or playerY < 380: 
+        playerY -= playerY_change
+        playerY_change -= gravity
+    if playerY > 380:
+        playerY = 380
+    if playerY == 380 and playerY_change < 0:
+        playerY_change = 0
 
     enemy(enemyX, enemyY)
     player(playerX, playerY) #calling player
