@@ -37,6 +37,10 @@ def enemy(x, y):
 
 def player(x, y):
     screen.blit(playerImage, (x, y)) #draw player on image
+    player_rect = playerImage.get_rect()
+    player_rect.x = x
+    player_rect.y = y
+    return player_rect
 
 #game loop
 running = True
