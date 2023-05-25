@@ -69,6 +69,16 @@ def show_score():
 def game_over():
     global running
     running = False
+    show_score()
+
+    restart = False
+    while not restart:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    restart = True
+
+        pygame.display.update()
 
 ENEMY_EVENT = pygame.USEREVENT + 1 # https://coderslegacy.com/python/pygame-userevents/ and https://www.geeksforgeeks.org/how-to-add-custom-events-in-pygame/
 pygame.time.set_timer(ENEMY_EVENT, 2000)
