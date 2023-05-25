@@ -32,6 +32,12 @@ enemyY = 380
 enemies = [] # spawn of enemies
 enemyX_change = -0.3
 
+# Score (allt som har med score att göra) https://www.makeuseof.com/pygame-game-scores-displaying-updating/ 
+score = 0
+
+# Font for score 
+font = pygame.font.Font('freesansbold.ttf', 32)
+
 def enemy(x, y):
     for enemy_pos in enemies:
         screen.blit(enemyImage, (x, y)) # draw enemy on image
@@ -46,7 +52,11 @@ def player(x, y):
     player_rect.y = y
     return player_rect
 
-ENEMY_EVENT = pygame.USEREVENT + 1
+def insert_score():
+    global score
+    score += 1
+
+ENEMY_EVENT = pygame.USEREVENT + 1 #https://coderslegacy.com/python/pygame-userevents/ and https://www.geeksforgeeks.org/how-to-add-custom-events-in-pygame/
 pygame.time.set_timer(ENEMY_EVENT, 2000)
 #game loop
 running = True
@@ -89,11 +99,16 @@ while running:
     if playerY == 380 and playerY_change < 0:
         playerY_change = 0
 
+    player_rect = player(playerX, playerY) #calling player
+
     for enemy_pos in enemies:
         enemy_pos[0] -= 2
 
     enemy(enemyX, enemyY)
-    player_rect = player(playerX, playerY) #calling player
+
+    score_text = font.render("Score: " + str(score), True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
+
     pygame.display.update()
 
 pygame.exit()
