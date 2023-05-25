@@ -33,7 +33,11 @@ enemies = [] # spawn of enemies
 enemyX_change = -0.3
 
 def enemy(x, y):
-    screen.blit(enemyImage, (x, y)) # draw enemy on image
+    for enemy_pos in enemies:
+        screen.blit(enemyImage, (x, y)) # draw enemy on image
+        enemy_rect = enemyImage.get_rect() #googlat runt men denna var primär källa av get_rect(): https://www.pygame.org/docs/ref/surface.html#pygame.Surface.get_rect
+        enemy_rect.x = enemy_pos[0]
+        enemy_rect.y = enemy_pos[1]
 
 def player(x, y):
     screen.blit(playerImage, (x, y)) #draw player on image
@@ -42,6 +46,8 @@ def player(x, y):
     player_rect.y = y
     return player_rect
 
+ENEMY_EVENT = pygame.USEREVENT + 1
+pygame.time.set_timer(ENEMY_EVENT, 2000)
 #game loop
 running = True
 while running:
@@ -68,6 +74,9 @@ while running:
             if event.key == pygame.K_LEFT:
                 playerX_change = 0
 
+        if event.type == ENEMY_EVENT:
+            enemies.append([800, 380])
+
     playerX += playerX_change
     enemyX += enemyX_change
 
@@ -80,9 +89,11 @@ while running:
     if playerY == 380 and playerY_change < 0:
         playerY_change = 0
 
- 
+    for enemy_pos in enemies:
+        enemy_pos[0] -= 2
+
     enemy(enemyX, enemyY)
-    player(playerX, playerY) #calling player
+    player_rect = player(playerX, playerY) #calling player
     pygame.display.update()
 
 pygame.exit()
