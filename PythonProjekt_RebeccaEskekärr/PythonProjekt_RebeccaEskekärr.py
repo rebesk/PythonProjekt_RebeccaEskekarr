@@ -61,6 +61,11 @@ def increment_score():
     global score
     score += 1
 
+def show_score():
+    score_text = font.render("Final Score: " + str(score), True, (255, 255, 255))
+    screen.blit(score_text, (300, 250))
+    pygame.display.update()
+
 def game_over():
     global running
     running = False
