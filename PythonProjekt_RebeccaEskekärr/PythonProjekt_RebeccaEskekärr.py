@@ -30,7 +30,7 @@ enemyImage = pygame.image.load('barrier.png')
 enemyX = 736
 enemyY = 380
 enemies = [] # spawn of enemies
-enemyX_change = -0.3
+enemyX_change = -0.5
 
 # Score (allt som har med score att göra) https://www.makeuseof.com/pygame-game-scores-displaying-updating/ 
 score = 0
@@ -40,10 +40,15 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 
 def enemy(x, y):
     for enemy_pos in enemies:
-        screen.blit(enemyImage, (x, y)) # draw enemy on image
+        screen.blit(enemyImage, enemy_pos) # draw enemy on image
         enemy_rect = enemyImage.get_rect() #googlat runt men denna var primär källa av get_rect(): https://www.pygame.org/docs/ref/surface.html#pygame.Surface.get_rect
         enemy_rect.x = enemy_pos[0]
         enemy_rect.y = enemy_pos[1]
+        if enemy_rect.colliderect(player_rect):
+            game_over()
+        if enemy_rect.x + enemy_rect.width < 0:
+            enemies.remove(enemy_pos)
+            increment_score()
 
 def player(x, y):
     screen.blit(playerImage, (x, y)) #draw player on image
@@ -52,19 +57,22 @@ def player(x, y):
     player_rect.y = y
     return player_rect
 
-def insert_score():
+def increment_score():
     global score
     score += 1
 
-ENEMY_EVENT = pygame.USEREVENT + 1 #https://coderslegacy.com/python/pygame-userevents/ and https://www.geeksforgeeks.org/how-to-add-custom-events-in-pygame/
+def game_over():
+    global running
+    running = False
+
+ENEMY_EVENT = pygame.USEREVENT + 1 # https://coderslegacy.com/python/pygame-userevents/ and https://www.geeksforgeeks.org/how-to-add-custom-events-in-pygame/
 pygame.time.set_timer(ENEMY_EVENT, 2000)
+
 #game loop
 running = True
 while running:
-
-
-
     screen.blit(background, (0,0)) # material av blit https://dr0id.bitbucket.io/legacy/pygame_tutorial01.html 
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -86,6 +94,7 @@ while running:
 
         if event.type == ENEMY_EVENT:
             enemies.append([800, 380])
+
 
     playerX += playerX_change
     enemyX += enemyX_change
@@ -111,4 +120,4 @@ while running:
 
     pygame.display.update()
 
-pygame.exit()
+pygame.quit()
