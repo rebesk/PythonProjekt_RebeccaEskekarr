@@ -1,4 +1,4 @@
-from turtle import width
+
 import pygame
 import random
 from sys import exit
@@ -66,9 +66,17 @@ def show_score():
     screen.blit(score_text, (300, 250))
     pygame.display.update()
 
+def reset_game():
+    global playerX, playerY, playerY_change, playerX_change, score, enemies
+    playerX = 200
+    playerY = 380
+    playerY_change = 0 
+    playerX_change = 0
+    score = 0
+    enemies = []
+  
+
 def game_over():
-    global running
-    running = False
     show_score()
 
     restart = False
@@ -77,6 +85,8 @@ def game_over():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     restart = True
+                    reset_game()
+                    return
 
         pygame.display.update()
 
@@ -85,6 +95,7 @@ pygame.time.set_timer(ENEMY_EVENT, 2000)
 
 #game loop
 running = True
+player_rect = player(playerX, playerY)
 while running:
     screen.blit(background, (0,0)) # material av blit https://dr0id.bitbucket.io/legacy/pygame_tutorial01.html 
     
@@ -128,7 +139,9 @@ while running:
     for enemy_pos in enemies:
         enemy_pos[0] -= 2
 
-    enemy(enemyX, enemyY)
+    if enemy(enemyX, enemyY):
+        game_over()
+        continue
 
     score_text = font.render("Score: " + str(score), True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
